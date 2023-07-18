@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { useEffect, useState, useReducer } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import authReducer from "../reducers/authResucer";
+import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
 import photo from "../../assets/images/photo.jpg";
 

@@ -11,7 +11,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useEffect, useState, useReducer } from "react";
-import authReducer from "../reducers/authResucer";
+import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
 
 const initialState = {
