@@ -10,27 +10,49 @@ import {
   View,
   SafeAreaView,
 } from "react-native";
-import bgImage from "../../images/background.jpg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
+import authReducer from "../reducers/authResucer";
+import bgImage from "../../assets/images/background.jpg";
+
+const initialState = {
+  email: "",
+  password: "",
+  showPassword: false,
+  secureTextEntry: true,
+};
 
 export default function LoginScreen() {
   const [keybordHide, setKeyboardHide] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [isFocused, setIsFocused] = useState("");
+
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
   const handleInputBlur = () => {
     setIsFocused("");
   };
 
   const handleToggleShowPassword = () => {
-    if (showPassword) {
-      setShowPassword(false);
-      setSecureTextEntry(true);
-    } else {
-      setShowPassword(true);
-      setSecureTextEntry(false);
-    }
+    dispatch({
+      type: "togglePasswordVisability",
+      showPassword: !state.showPassword,
+      secureTextEntry: !state.secureTextEntry,
+    });
+  };
+
+  const handleEmailChange = (e) => {
+    dispatch({ type: "setEmail", email: e });
+  };
+
+  const handlePasswordChange = (e) => {
+    dispatch({ type: "setPassword", password: e });
+  };
+
+  const handleSubmit = () => {
+    const formData = {
+      email: state.email,
+      password: state.password,
+    };
+    console.log(formData);
   };
 
   useEffect(() => {
@@ -63,6 +85,7 @@ export default function LoginScreen() {
               <View style={styles.form}>
                 <Text style={styles.title}>Увійти</Text>
                 <TextInput
+                  value={state.email}
                   style={[
                     styles.input,
                     isFocused === "emailFocused" && styles.inputFocused,
@@ -71,9 +94,11 @@ export default function LoginScreen() {
                   placeholderTextColor="#bdbdbd"
                   onFocus={() => setIsFocused("emailFocused")}
                   onBlur={handleInputBlur}
+                  onChangeText={handleEmailChange}
                 />
                 <View style={styles.passwordInput}>
                   <TextInput
+                    value={state.password}
                     style={[
                       styles.input,
                       isFocused === "passwordFocused" && styles.inputFocused,
@@ -82,10 +107,11 @@ export default function LoginScreen() {
                     placeholderTextColor="#bdbdbd"
                     onFocus={() => setIsFocused("passwordFocused")}
                     onBlur={handleInputBlur}
-                    secureTextEntry={secureTextEntry}
+                    onChangeText={handlePasswordChange}
+                    secureTextEntry={state.secureTextEntry}
                     autoComplete="off"
                   />
-                  {!showPassword ? (
+                  {!state.showPassword ? (
                     <Text
                       onPress={handleToggleShowPassword}
                       style={styles.showPasswordText}
@@ -110,6 +136,7 @@ export default function LoginScreen() {
                           backgroundColor: pressed ? "#DF650C" : "#ff6c00",
                         },
                       ]}
+                      onPress={handleSubmit}
                     >
                       <Text style={styles.buttonText}>Увійти</Text>
                     </Pressable>
@@ -170,13 +197,11 @@ const styles = StyleSheet.create({
   },
   passwordInput: { width: "100%" },
   button: {
-    width: 343,
+    width: "100%",
     borderRadius: 100,
     alignItems: "center",
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 32,
-    paddingRight: 32,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
     marginTop: 35,
     marginBottom: 16,
   },
