@@ -11,7 +11,7 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useState, useReducer } from "react";
+import { useState, useReducer } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
@@ -26,7 +26,6 @@ const initialState = {
 };
 
 export default function RegistrationScreen() {
-  const [keybordHide, setKeyboardHide] = useState(true);
   const [isFocused, setIsFocused] = useState("");
   const [avatar, setAvatar] = useState(false);
 
@@ -70,126 +69,110 @@ export default function RegistrationScreen() {
       email: state.email,
       password: state.password,
     };
-    console.log(formData)
+    console.log(formData);
+    dispatch({ type: "setLogin", login: "" });
+    dispatch({ type: "setEmail", email: "" });
+    dispatch({ type: "setPassword", password: "" });
   };
-
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", () => {
-      setKeyboardHide(false);
-    });
-    Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHide(true);
-    });
-  }, [keybordHide]);
 
   return (
     <SafeAreaView style={styles.area}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      >
-        <View style={styles.container}>
-          <ImageBackground
-            source={bgImage}
-            resizeMode="cover"
-            style={styles.image}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground
+          source={bgImage}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={-175}
           >
-            <KeyboardAvoidingView
-              style={styles.container}
-              behavior={Platform.OS === "ios" ? "padding" : ""}
-              keyboardVerticalOffset={-200}
-            >
-              <View style={styles.form}>
-                <View style={styles.photoContainer}>
-                  {avatar && <Image source={photo} style={styles.photo} />}
-                  <Pressable
-                    onPress={handleAvatarAddPress}
-                    style={styles.iconContainer}
-                  >
-                    <AntDesign
-                      name="pluscircleo"
-                      size={25}
-                      style={!avatar ? styles.icon : styles.iconAddedAvatar}
-                    />
-                  </Pressable>
-                </View>
-                <Text style={styles.title}>Реєстрація</Text>
-                <TextInput
-                  value={state.login}
-                  style={[
-                    styles.input,
-                    isFocused === "loginFocused" && styles.inputFocused,
-                  ]}
-                  placeholder="Логін"
-                  placeholderTextColor="#bdbdbd"
-                  onFocus={() => setIsFocused("loginFocused")}
-                  onBlur={handleInputBlur}
-                  onChangeText={handleLoginChange}
-                />
-                <TextInput
-                  value={state.email}
-                  style={[
-                    styles.input,
-                    isFocused === "emailFocused" && styles.inputFocused,
-                  ]}
-                  placeholder="Адреса електронної пошти"
-                  placeholderTextColor="#bdbdbd"
-                  onFocus={() => setIsFocused("emailFocused")}
-                  onBlur={handleInputBlur}
-                  onChangeText={handleEmailChange}
-                />
-                <View style={styles.passwordInput}>
-                  <TextInput
-                    value={state.password}
-                    style={[
-                      styles.input,
-                      isFocused === "passwordFocused" && styles.inputFocused,
-                    ]}
-                    placeholder="Пароль"
-                    placeholderTextColor="#bdbdbd"
-                    onFocus={() => setIsFocused("passwordFocused")}
-                    onBlur={handleInputBlur}
-                    onChangeText={handlePasswordChange}
-                    secureTextEntry={state.secureTextEntry}
-                    autoComplete="off"
+            <View style={styles.form}>
+              <View style={styles.photoContainer}>
+                {avatar && <Image source={photo} style={styles.photo} />}
+                <Pressable
+                  onPress={handleAvatarAddPress}
+                  style={styles.iconContainer}
+                >
+                  <AntDesign
+                    name="pluscircleo"
+                    size={25}
+                    style={!avatar ? styles.icon : styles.iconAddedAvatar}
                   />
-                  {!state.showPassword ? (
-                    <Text
-                      onPress={handleToggleShowPassword}
-                      style={styles.showPasswordText}
-                    >
-                      Показати
-                    </Text>
-                  ) : (
-                    <Text
-                      onPress={handleToggleShowPassword}
-                      style={styles.showPasswordText}
-                    >
-                      Приховати
-                    </Text>
-                  )}
-                </View>
-                {keybordHide && (
-                  <>
-                    <Pressable
-                      style={({ pressed }) => [
-                        styles.button,
-                        {
-                          backgroundColor: pressed ? "#DF650C" : "#ff6c00",
-                        },
-                      ]}
-                      onPress={handleSubmit}
-                    >
-                      <Text style={styles.buttonText}>Зареєстуватися</Text>
-                    </Pressable>
-                    <Text style={styles.linkText}>Вже є акаунт? Увійти</Text>
-                  </>
+                </Pressable>
+              </View>
+              <Text style={styles.title}>Реєстрація</Text>
+              <TextInput
+                value={state.login}
+                style={[
+                  styles.input,
+                  isFocused === "loginFocused" && styles.inputFocused,
+                ]}
+                placeholder="Логін"
+                placeholderTextColor="#bdbdbd"
+                onFocus={() => setIsFocused("loginFocused")}
+                onBlur={handleInputBlur}
+                onChangeText={handleLoginChange}
+              />
+              <TextInput
+                value={state.email}
+                style={[
+                  styles.input,
+                  isFocused === "emailFocused" && styles.inputFocused,
+                ]}
+                placeholder="Адреса електронної пошти"
+                placeholderTextColor="#bdbdbd"
+                onFocus={() => setIsFocused("emailFocused")}
+                onBlur={handleInputBlur}
+                onChangeText={handleEmailChange}
+              />
+              <View style={styles.passwordInput}>
+                <TextInput
+                  value={state.password}
+                  style={[
+                    styles.input,
+                    isFocused === "passwordFocused" && styles.inputFocused,
+                  ]}
+                  placeholder="Пароль"
+                  placeholderTextColor="#bdbdbd"
+                  onFocus={() => setIsFocused("passwordFocused")}
+                  onBlur={handleInputBlur}
+                  onChangeText={handlePasswordChange}
+                  secureTextEntry={state.secureTextEntry}
+                  autoComplete="off"
+                />
+                {!state.showPassword ? (
+                  <Text
+                    onPress={handleToggleShowPassword}
+                    style={styles.showPasswordText}
+                  >
+                    Показати
+                  </Text>
+                ) : (
+                  <Text
+                    onPress={handleToggleShowPassword}
+                    style={styles.showPasswordText}
+                  >
+                    Приховати
+                  </Text>
                 )}
               </View>
-            </KeyboardAvoidingView>
-          </ImageBackground>
-        </View>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.button,
+                  {
+                    backgroundColor: pressed ? "#DF650C" : "#ff6c00",
+                  },
+                ]}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.buttonText}>Зареєстуватися</Text>
+              </Pressable>
+              <Text style={styles.linkText}>Вже є акаунт? Увійти</Text>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
@@ -197,17 +180,15 @@ export default function RegistrationScreen() {
 
 const styles = StyleSheet.create({
   area: { flex: 1, width: "100%" },
+  image: { flex: 1 },
   container: { flex: 1, justifyContent: "flex-end" },
-  image: {
-    flex: 1,
-  },
   form: {
-    marginTop: 263,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 45,
     backgroundColor: "#ffffff",
+    alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignItems: "center",
   },
   photoContainer: {
     width: 120,
@@ -239,7 +220,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "45deg" }],
   },
   title: {
-    marginTop: 76,
+    marginTop: 47,
     marginBottom: 24,
     color: "#212121",
     textAlign: "center",
@@ -271,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
-    marginTop: 35,
+    marginTop: 37,
     marginBottom: 16,
   },
   buttonText: {
@@ -280,7 +261,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: "#1b4371",
-    marginBottom: 29,
     fontSize: 16,
     fontWeight: "400",
   },
