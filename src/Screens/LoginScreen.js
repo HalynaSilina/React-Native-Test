@@ -10,7 +10,7 @@ import {
   View,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useState, useReducer } from "react";
+import { useState, useReducer } from "react";
 import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
 
@@ -22,7 +22,6 @@ const initialState = {
 };
 
 export default function LoginScreen() {
-  const [keybordHide, setKeyboardHide] = useState(true);
   const [isFocused, setIsFocused] = useState("");
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -53,105 +52,88 @@ export default function LoginScreen() {
       password: state.password,
     };
     console.log(formData);
+    dispatch({ type: "setEmail", email: "" });
+    dispatch({ type: "setPassword", password: "" });
   };
 
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", () => {
-      setKeyboardHide(false);
-    });
-    Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHide(true);
-    });
-  }, [keybordHide]);
-
   return (
-    <SafeAreaView style={styles.area}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      >
-        <View style={styles.container}>
-          <ImageBackground
-            source={bgImage}
-            resizeMode="cover"
-            style={styles.image}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.area}>
+        <ImageBackground
+          source={bgImage}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={-225}
           >
-            <KeyboardAvoidingView
-              style={styles.container}
-              behavior={Platform.OS === "ios" ? "padding" : ""}
-              keyboardVerticalOffset={-200}
-            >
-              <View style={styles.form}>
-                <Text style={styles.title}>Увійти</Text>
+            <View style={styles.form}>
+              <Text style={styles.title}>Увійти</Text>
+              <TextInput
+                value={state.email}
+                style={[
+                  styles.input,
+                  isFocused === "emailFocused" && styles.inputFocused,
+                ]}
+                placeholder="Адреса електронної пошти"
+                placeholderTextColor="#bdbdbd"
+                onFocus={() => setIsFocused("emailFocused")}
+                onBlur={handleInputBlur}
+                onChangeText={handleEmailChange}
+              />
+              <View style={styles.passwordInput}>
                 <TextInput
-                  value={state.email}
+                  value={state.password}
                   style={[
                     styles.input,
-                    isFocused === "emailFocused" && styles.inputFocused,
+                    isFocused === "passwordFocused" && styles.inputFocused,
                   ]}
-                  placeholder="Адреса електронної пошти"
+                  placeholder="Пароль"
                   placeholderTextColor="#bdbdbd"
-                  onFocus={() => setIsFocused("emailFocused")}
+                  onFocus={() => setIsFocused("passwordFocused")}
                   onBlur={handleInputBlur}
-                  onChangeText={handleEmailChange}
+                  onChangeText={handlePasswordChange}
+                  secureTextEntry={state.secureTextEntry}
+                  autoComplete="off"
                 />
-                <View style={styles.passwordInput}>
-                  <TextInput
-                    value={state.password}
-                    style={[
-                      styles.input,
-                      isFocused === "passwordFocused" && styles.inputFocused,
-                    ]}
-                    placeholder="Пароль"
-                    placeholderTextColor="#bdbdbd"
-                    onFocus={() => setIsFocused("passwordFocused")}
-                    onBlur={handleInputBlur}
-                    onChangeText={handlePasswordChange}
-                    secureTextEntry={state.secureTextEntry}
-                    autoComplete="off"
-                  />
-                  {!state.showPassword ? (
-                    <Text
-                      onPress={handleToggleShowPassword}
-                      style={styles.showPasswordText}
-                    >
-                      Показати
-                    </Text>
-                  ) : (
-                    <Text
-                      onPress={handleToggleShowPassword}
-                      style={styles.showPasswordText}
-                    >
-                      Приховати
-                    </Text>
-                  )}
-                </View>
-                {keybordHide && (
-                  <>
-                    <Pressable
-                      style={({ pressed }) => [
-                        styles.button,
-                        {
-                          backgroundColor: pressed ? "#DF650C" : "#ff6c00",
-                        },
-                      ]}
-                      onPress={handleSubmit}
-                    >
-                      <Text style={styles.buttonText}>Увійти</Text>
-                    </Pressable>
-                    <Text style={styles.text}>
-                      Немає акаунту?{" "}
-                      <Text style={styles.linkText}>Зареєструватися</Text>
-                    </Text>
-                  </>
+                {!state.showPassword ? (
+                  <Text
+                    onPress={handleToggleShowPassword}
+                    style={styles.showPasswordText}
+                  >
+                    Показати
+                  </Text>
+                ) : (
+                  <Text
+                    onPress={handleToggleShowPassword}
+                    style={styles.showPasswordText}
+                  >
+                    Приховати
+                  </Text>
                 )}
               </View>
-            </KeyboardAvoidingView>
-          </ImageBackground>
-        </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.button,
+                  {
+                    backgroundColor: pressed ? "#DF650C" : "#ff6c00",
+                  },
+                ]}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.buttonText}>Увійти</Text>
+              </Pressable>
+              <Text style={styles.text}>
+                Немає акаунту?{" "}
+                <Text style={styles.linkText}>Зареєструватися</Text>
+              </Text>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -162,8 +144,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   form: {
-    marginTop: 279,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 32,
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -211,7 +193,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#1b4371",
-    marginBottom: 111,
+    marginBottom: 79,
     fontSize: 16,
     fontWeight: "400",
   },

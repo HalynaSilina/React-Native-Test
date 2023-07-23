@@ -76,8 +76,8 @@ export default function RegistrationScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.area}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.area}>
         <ImageBackground
           source={bgImage}
           resizeMode="cover"
@@ -173,8 +173,8 @@ export default function RegistrationScreen() {
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
