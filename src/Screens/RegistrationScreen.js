@@ -11,6 +11,7 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { useState, useReducer } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import authReducer from "../reducers/authReducer";
@@ -30,6 +31,7 @@ export default function RegistrationScreen() {
   const [avatar, setAvatar] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const navigation = useNavigation();
 
   const handleInputBlur = () => {
     setIsFocused("");
@@ -167,9 +169,12 @@ export default function RegistrationScreen() {
                 ]}
                 onPress={handleSubmit}
               >
-                <Text style={styles.buttonText}>Зареєстуватися</Text>
+                <Text style={styles.buttonText} onPress={() => navigation.navigate("Home")}>Зареєстуватися</Text>
               </Pressable>
-              <Text style={styles.linkText}>Вже є акаунт? Увійти</Text>
+              <Text style={styles.linkText}>
+                Вже є акаунт?{" "}
+                <Text onPress={() => navigation.navigate("Login")}>Увійти</Text>
+              </Text>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>

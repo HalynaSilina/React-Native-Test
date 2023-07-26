@@ -1,8 +1,9 @@
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-const PostsScreen = () => {
+const CreatePostsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Posts Screen</Text>
+      <Text>Create Posts Screen</Text>
     </View>
   );
 };
@@ -15,4 +16,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostsScreen;
+export default CreatePostsScreen;
