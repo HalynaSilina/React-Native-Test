@@ -18,7 +18,7 @@ export default function App() {
       <MainStack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
         <MainStack.Screen name="Registration" component={RegisterScreen} />
         <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} />
+        <MainStack.Screen name="Home" component={Home}/>
         <MainStack.Screen name="Comments" component={CommentsScreen} />
         <MainStack.Screen name="Map" component={MapScreen} />
       </MainStack.Navigator>

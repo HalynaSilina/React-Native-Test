@@ -13,32 +13,38 @@ const Home = () => {
   return (
     <Tabs.Navigator
       initialRouteName="Posts"
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#ffffff",
-          borderBottomColor: "#0000004D",
-          borderBottomWidth: 0.5,
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          color = focused ? "#ffffff" : "#212121CC";
+          if (route.name === "Posts") {
+            iconName = "grid";
+            size = 24;
+          } else if (route.name === "CreatePosts") {
+            iconName = "plus";
+            size = 16;
+          } else if (route.name === "Profile") {
+            size = 24;
+            iconName = "user";
+          }
+          return <Icon name={iconName} size={size} color={color} />;
         },
-        headerTintColor: "#212121",
-        headerTitleStyle: {
-          fontFamily: "Roboto",
-          fontSize: 17,
-          fontWeight: "bold",
-          textAlign: "center",
-          letterSpacing: -0.41,
-        },
-      }}
+        ...tabBarOptions,
+      })}
     >
       <Tabs.Screen
         name="Posts"
         component={PostsScreen}
-        options={{ title: "Публікації",  headerRight: () => (
-          <TouchableHighlight
-            onPress={() => navigation.navigate("Registration")}
-          >
-            <Icon name="log-out" color="#BDBDBD" size={24} />
-          </TouchableHighlight>
-        ), }}
+        options={{
+          title: "Публікації",
+          headerRight: () => (
+            <TouchableHighlight
+              style={{ marginRight: 10 }}
+              onPress={() => navigation.navigate("Registration")}
+            >
+              <Icon name="log-out" color="#BDBDBD" size={24} />
+            </TouchableHighlight>
+          ),
+        }}
       />
       <Tabs.Screen
         name="CreatePosts"
@@ -55,3 +61,35 @@ const Home = () => {
 };
 
 export default Home;
+
+const tabBarOptions = {
+  tabBarShowLabel: false,
+  tabBarStyle: {
+    height: 71,
+    paddingHorizontal: 82,
+    paddingTop: 9,
+    backgroundColor: "#ffffff",
+    borderTopColor: "#0000004D",
+  },
+  tabBarActiveBackgroundColor: "#FF6C00",
+  tabBarInactiveBackgroundColor: "#ffffff",
+  tabBarItemStyle: {
+    height: 40,
+    width: 70,
+    borderRadius: 20,
+  },
+  headerStyle: {
+    backgroundColor: "#ffffff",
+    borderBottomColor: "#0000004D",
+    borderBottomWidth: 0.5,
+  },
+  headerTintColor: "#212121",
+  headerTitleStyle: {
+    fontFamily: "Roboto",
+    fontSize: 17,
+    fontWeight: "bold",
+    textAlign: "center",
+    letterSpacing: -0.41,
+  },
+  headerTitleAlign: "center",
+};

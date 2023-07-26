@@ -11,7 +11,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useState, useReducer } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
 
@@ -56,7 +56,8 @@ export default function LoginScreen() {
     console.log(formData);
     dispatch({ type: "setEmail", email: "" });
     dispatch({ type: "setPassword", password: "" });
-    navigation.navigate("Home")
+    navigation.navigate("Home", {email: state.email,
+    });
   };
 
   return (
@@ -130,7 +131,12 @@ export default function LoginScreen() {
               </Pressable>
               <Text style={styles.text}>
                 Немає акаунту?{" "}
-                <Text style={styles.linkText} onPress={() => navigation.navigate("Registration")}>Зареєструватися</Text>
+                <Text
+                  style={styles.linkText}
+                  onPress={() => navigation.navigate("Registration")}
+                >
+                  Зареєструватися
+                </Text>
               </Text>
             </View>
           </KeyboardAvoidingView>

@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     color: "#212121",
     textAlign: "center",
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: "bold",
   },
   input: {
     width: "100%",
