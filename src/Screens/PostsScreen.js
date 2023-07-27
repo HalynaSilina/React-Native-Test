@@ -1,8 +1,17 @@
-import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  TouchableHighlight,
+} from "react-native";
 import photo from "../../assets/images/photo.jpg";
-import { FlatList } from "react-native";
-import PublicationsItem from "../components/PublicationsItem";
-import DATA from "../../data.json";
+import Icon from "react-native-vector-icons/Feather";
+import image1 from "../../assets/images/forest.jpg";
+import image2 from "../../assets/images/sea.jpg";
+import image3 from "../../assets/images/house.jpg";
 
 const PostsScreen = () => {
   return (
@@ -15,20 +24,27 @@ const PostsScreen = () => {
             <Text style={styles.email}>email@example.com</Text>
           </View>
         </View>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <PublicationsItem
-              image={item.image}
-              title={item.title}
-              comments={item.comments}
-              location={item.location}
-              key={item.id}
+        <ScrollView>
+          <View style={styles.item}>
+            <Image
+              source={image1}
+              alt={title}
+              resizeMode="contain"
+              style={styles.image}
             />
-          )}
-          keyExtractor={(item) => item.id}
-          style={styles.listContainer}
-        />
+            <Text>{title}</Text>
+            <View>
+              <TouchableHighlight>
+                <Icon name="message-circle" size={24} color={"#212121CC"} />
+              </TouchableHighlight>
+              <Text>{commentsNumber}</Text>
+              <TouchableHighlight>
+                <Icon name="map-pin" size={24} color={"#212121CC"} />
+              </TouchableHighlight>
+              <Text>{location}</Text>
+            </View>
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -67,6 +83,12 @@ const styles = StyleSheet.create({
     color: "#212121CC",
   },
   listContainer: { width: "100%" },
+  item: { width: "100%" },
+  image: {
+    height: 240,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
 });
 
 export default PostsScreen;
