@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import photo from "../../assets/images/photo.jpg";
 import Icon from "react-native-vector-icons/Feather";
 import image1 from "../../assets/images/forest.jpg";
@@ -14,6 +15,7 @@ import image2 from "../../assets/images/sea.jpg";
 import image3 from "../../assets/images/house.jpg";
 
 const PostsScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.area}>
       <View style={styles.container}>
@@ -24,24 +26,75 @@ const PostsScreen = () => {
             <Text style={styles.email}>email@example.com</Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView style={styles.listContainer}>
+          <View style={styles.item}>
+            <Image source={image1} alt={"Ліс"} style={styles.image} />
+            <Text style={styles.imageTitle}>Ліс</Text>
+            <View style={styles.imageButtonsContainer}>
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Comments")}
+              >
+                <View style={styles.button}>
+                  <Icon name="message-circle" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.commentText}>0</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+                <View style={styles.button}>
+                  <Icon name="map-pin" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.locationText}>
+                    Ivano-Frankivs'k Region, Ukraine
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
           <View style={styles.item}>
             <Image
-              source={image1}
-              alt={title}
-              resizeMode="contain"
+              source={image2}
+              alt={"Захід на Чорному морі"}
               style={styles.image}
             />
-            <Text>{title}</Text>
-            <View>
-              <TouchableHighlight>
-                <Icon name="message-circle" size={24} color={"#212121CC"} />
+            <Text style={styles.imageTitle}>Захід на Чорному морі</Text>
+            <View style={styles.imageButtonsContainer}>
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Comments")}
+              >
+                <View style={styles.button}>
+                  <Icon name="message-circle" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.commentText}>0</Text>
+                </View>
               </TouchableHighlight>
-              <Text>{commentsNumber}</Text>
-              <TouchableHighlight>
-                <Icon name="map-pin" size={24} color={"#212121CC"} />
+              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+                <View style={styles.button}>
+                  <Icon name="map-pin" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.locationText}>Ukraine</Text>
+                </View>
               </TouchableHighlight>
-              <Text>{location}</Text>
+            </View>
+          </View>
+          <View style={styles.item}>
+            <Image
+              source={image3}
+              alt={"Старий будиночок у Венеції"}
+              style={styles.image}
+            />
+            <Text style={styles.imageTitle}>Старий будиночок у Венеції</Text>
+            <View style={styles.imageButtonsContainer}>
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Comments")}
+              >
+                <View style={styles.button}>
+                  <Icon name="message-circle" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.commentText}>0</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+                <View style={styles.button}>
+                  <Icon name="map-pin" size={24} color={"#BDBDBD"} />
+                  <Text style={styles.locationText}>Italy</Text>
+                </View>
+              </TouchableHighlight>
             </View>
           </View>
         </ScrollView>
@@ -57,13 +110,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     paddingHorizontal: 16,
-    paddingVertical: 32,
     backgroundColor: "#ffffff",
   },
   user: {
+    marginVertical: 32,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 32,
   },
   photo: {
     width: 60,
@@ -83,12 +135,36 @@ const styles = StyleSheet.create({
     color: "#212121CC",
   },
   listContainer: { width: "100%" },
-  item: { width: "100%" },
+  item: { marginBottom: 32 },
   image: {
+    width: "100%",
     height: 240,
     borderRadius: 8,
+    resizeMode: "cover",
     overflow: "hidden",
   },
+  imageTitle: {
+    marginVertical: 8,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#212121",
+  },
+  imageButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: { flexDirection: "row"},
+  locationText: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#212121",
+    textDecorationLine: "underline",
+  },
+  commentText: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#BDBDBD",
+  }
 });
 
 export default PostsScreen;
