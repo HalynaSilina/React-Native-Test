@@ -2,10 +2,9 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Image,
   ScrollView,
-  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import photo from "../../assets/images/photo.jpg";
@@ -17,7 +16,6 @@ import image3 from "../../assets/images/house.jpg";
 const PostsScreen = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.area}>
       <View style={styles.container}>
         <View style={styles.user}>
           <Image source={photo} style={styles.photo} />
@@ -31,22 +29,22 @@ const PostsScreen = () => {
             <Image source={image1} alt={"Ліс"} style={styles.image} />
             <Text style={styles.imageTitle}>Ліс</Text>
             <View style={styles.imageButtonsContainer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => navigation.navigate("Comments")}
               >
                 <View style={styles.button}>
                   <Icon name="message-circle" size={24} color={"#BDBDBD"} />
                   <Text style={styles.commentText}>0</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Map")}>
                 <View style={styles.button}>
                   <Icon name="map-pin" size={24} color={"#BDBDBD"} />
                   <Text style={styles.locationText}>
                     Ivano-Frankivs'k Region, Ukraine
                   </Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.item}>
@@ -57,20 +55,20 @@ const PostsScreen = () => {
             />
             <Text style={styles.imageTitle}>Захід на Чорному морі</Text>
             <View style={styles.imageButtonsContainer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => navigation.navigate("Comments")}
               >
                 <View style={styles.button}>
                   <Icon name="message-circle" size={24} color={"#BDBDBD"} />
                   <Text style={styles.commentText}>0</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Map")}>
                 <View style={styles.button}>
                   <Icon name="map-pin" size={24} color={"#BDBDBD"} />
                   <Text style={styles.locationText}>Ukraine</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.item}>
@@ -81,32 +79,30 @@ const PostsScreen = () => {
             />
             <Text style={styles.imageTitle}>Старий будиночок у Венеції</Text>
             <View style={styles.imageButtonsContainer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => navigation.navigate("Comments")}
               >
                 <View style={styles.button}>
                   <Icon name="message-circle" size={24} color={"#BDBDBD"} />
                   <Text style={styles.commentText}>0</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => navigation.navigate("Map")}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Map")}>
                 <View style={styles.button}>
                   <Icon name="map-pin" size={24} color={"#BDBDBD"} />
                   <Text style={styles.locationText}>Italy</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  area: { flex: 1, width: "100%" },
   container: {
-    flex: 1,
+    flex: 1, width: "100%",
     alignItems: "flex-start",
     justifyContent: "flex-start",
     paddingHorizontal: 16,

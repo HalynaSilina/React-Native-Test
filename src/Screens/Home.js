@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableHighlight } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CreatePostsScreen from "./CreatePostsScreen";
 import PostsScreen from "./PostsScreen";
@@ -37,19 +37,30 @@ const Home = () => {
         options={{
           title: "Публікації",
           headerRight: () => (
-            <TouchableHighlight
+            <TouchableOpacity
               style={{ marginRight: 10 }}
-              onPress={() => navigation.navigate("Registration")}
+              onPress={() => navigation.navigate("Login")}
             >
               <Icon name="log-out" color="#BDBDBD" size={24} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           ),
         }}
       />
       <Tabs.Screen
         name="CreatePosts"
         component={CreatePostsScreen}
-        options={{ title: "Створити публікацію" }}
+        options={({ navigation }) => ({
+          title: "Створити публікацію",
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name="arrow-left" color="#212121CC" size={24} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <Tabs.Screen
         name="Profile"
@@ -65,7 +76,7 @@ export default Home;
 const tabBarOptions = {
   tabBarShowLabel: false,
   tabBarStyle: {
-    height: 71,
+    height: 60,
     paddingHorizontal: 82,
     paddingTop: 9,
     backgroundColor: "#ffffff",

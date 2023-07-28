@@ -9,7 +9,6 @@ import {
   Keyboard,
   View,
   Image,
-  SafeAreaView,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useState, useReducer } from "react";
@@ -79,7 +78,6 @@ export default function RegistrationScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.area}>
         <ImageBackground
           source={bgImage}
           resizeMode="cover"
@@ -88,7 +86,7 @@ export default function RegistrationScreen() {
           <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={-175}
+            keyboardVerticalOffset={-180}
           >
             <View style={styles.form}>
               <View style={styles.photoContainer}>
@@ -178,14 +176,12 @@ export default function RegistrationScreen() {
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
-      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  area: { flex: 1, width: "100%" },
-  image: { flex: 1 },
+  image: { flex: 1, width: "100%" },
   container: { flex: 1, justifyContent: "flex-end" },
   form: {
     paddingHorizontal: 16,
