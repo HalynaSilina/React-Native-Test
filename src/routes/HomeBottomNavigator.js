@@ -1,14 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import CreatePostsScreen from "./CreatePostsScreen";
-import PostsScreen from "./PostsScreen";
-import ProfileScreen from "./ProfileScreen";
+import CreatePostsScreen from "../Screens/CreatePostsScreen";
+import PostsScreen from "../Screens/PostsScreen";
+import ProfileScreen from "../Screens/ProfileScreen";
 import Icon from "react-native-vector-icons/Feather";
 
 const Tabs = createBottomTabNavigator();
 
-const Home = () => {
+const HomeBottomNavigator = () => {
   const navigation = useNavigation();
   return (
     <Tabs.Navigator
@@ -71,7 +71,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeBottomNavigator;
 
 const tabBarOptions = {
   tabBarShowLabel: false,

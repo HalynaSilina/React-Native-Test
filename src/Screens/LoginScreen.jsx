@@ -8,26 +8,22 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   View,
-  Image,
+  SafeAreaView,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
 import { useState, useReducer } from "react";
-import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import authReducer from "../reducers/authReducer";
 import bgImage from "../../assets/images/background.jpg";
-import photo from "../../assets/images/photo.jpg";
 
 const initialState = {
-  login: "",
   email: "",
   password: "",
   showPassword: false,
   secureTextEntry: true,
 };
 
-export default function RegistrationScreen() {
+export default function LoginScreen() {
   const [isFocused, setIsFocused] = useState("");
-  const [avatar, setAvatar] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, initialState);
   const navigation = useNavigation();
@@ -36,24 +32,12 @@ export default function RegistrationScreen() {
     setIsFocused("");
   };
 
-  const handleAvatarAddPress = () => {
-    if (!avatar) {
-      setAvatar(true);
-      return;
-    }
-    setAvatar(false);
-  };
-
   const handleToggleShowPassword = () => {
     dispatch({
       type: "togglePasswordVisability",
       showPassword: !state.showPassword,
       secureTextEntry: !state.secureTextEntry,
     });
-  };
-
-  const handleLoginChange = (e) => {
-    dispatch({ type: "setLogin", login: e });
   };
 
   const handleEmailChange = (e) => {
@@ -66,18 +50,18 @@ export default function RegistrationScreen() {
 
   const handleSubmit = () => {
     const formData = {
-      login: state.login,
       email: state.email,
       password: state.password,
     };
     console.log(formData);
-    dispatch({ type: "setLogin", login: "" });
     dispatch({ type: "setEmail", email: "" });
     dispatch({ type: "setPassword", password: "" });
+    navigation.navigate("Home", { email: state.email });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.area}>
         <ImageBackground
           source={bgImage}
           resizeMode="cover"
@@ -86,35 +70,10 @@ export default function RegistrationScreen() {
           <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={-180}
+            keyboardVerticalOffset={-225}
           >
             <View style={styles.form}>
-              <View style={styles.photoContainer}>
-                {avatar && <Image source={photo} style={styles.photo} />}
-                <Pressable
-                  onPress={handleAvatarAddPress}
-                  style={styles.iconContainer}
-                >
-                  <AntDesign
-                    name="pluscircleo"
-                    size={25}
-                    style={!avatar ? styles.icon : styles.iconAddedAvatar}
-                  />
-                </Pressable>
-              </View>
-              <Text style={styles.title}>Реєстрація</Text>
-              <TextInput
-                value={state.login}
-                style={[
-                  styles.input,
-                  isFocused === "loginFocused" && styles.inputFocused,
-                ]}
-                placeholder="Логін"
-                placeholderTextColor="#bdbdbd"
-                onFocus={() => setIsFocused("loginFocused")}
-                onBlur={handleInputBlur}
-                onChangeText={handleLoginChange}
-              />
+              <Text style={styles.title}>Увійти</Text>
               <TextInput
                 value={state.email}
                 style={[
@@ -167,66 +126,49 @@ export default function RegistrationScreen() {
                 ]}
                 onPress={handleSubmit}
               >
-                <Text style={styles.buttonText} onPress={() => navigation.navigate("Home")}>Зареєстуватися</Text>
+                <Text style={styles.buttonText}>Увійти</Text>
               </Pressable>
-              <Text style={styles.linkText}>
-                Вже є акаунт?{" "}
-                <Text onPress={() => navigation.navigate("Login")}>Увійти</Text>
+              <Text
+                style={styles.text}
+                onPress={() => navigation.navigate("Registration")}
+              >
+                Немає акаунту?{" "}
+                <Text
+                  style={styles.linkText}
+                  onPress={() => navigation.navigate("Registration")}
+                >
+                  Зареєструватися
+                </Text>
               </Text>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  image: { flex: 1, width: "100%" },
+  area: { flex: 1, width: "100%" },
   container: { flex: 1, justifyContent: "flex-end" },
+  image: {
+    flex: 1,
+  },
   form: {
     paddingHorizontal: 16,
-    paddingVertical: 45,
+    paddingVertical: 32,
     backgroundColor: "#ffffff",
-    alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-  },
-  photoContainer: {
-    width: 120,
-    height: 120,
-    position: "absolute",
-    top: -60,
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-  },
-  photo: { width: 120, height: 120, borderRadius: 16, overflow: "hidden" },
-  iconContainer: {
-    position: "absolute",
-    top: 81,
-    left: 107,
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    backgroundColor: "#ffffff",
-    color: "#ff6c00",
-  },
-  iconAddedAvatar: {
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    backgroundColor: "#ffffff",
-    color: "#e8e8e8",
-    transform: [{ rotate: "45deg" }],
+    alignItems: "center",
   },
   title: {
-    marginTop: 47,
+    marginTop: 16,
     marginBottom: 24,
     color: "#212121",
     textAlign: "center",
     fontSize: 30,
-    fontWeight: "bold",
+    fontWeight: 500,
   },
   input: {
     width: "100%",
@@ -253,17 +195,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
-    marginTop: 37,
+    marginTop: 35,
     marginBottom: 16,
   },
   buttonText: {
     color: "#ffffff",
     fontSize: 16,
   },
-  linkText: {
+  text: {
     color: "#1b4371",
+    marginBottom: 79,
     fontSize: 16,
     fontWeight: "400",
+  },
+  linkText: {
+    color: "#1b4371",
+    marginBottom: 111,
+    fontSize: 16,
+    fontWeight: "400",
+    textDecorationLine: "underline",
   },
   showPasswordText: {
     position: "absolute",
