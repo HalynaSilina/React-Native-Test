@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, width: "100%", justifyContent: "flex-end" },
   bgImage: { flex: 1, width: "100%" },
   form: {
-    height: 630,
+    marginTop: 60,
     paddingTop: 60,
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "45deg" }],
   },
   logoutButton: { position: "absolute", right: 16, top: 22 },
-  listContainer: { width: "100%"},
+  listContainer: { width: "100%", marginTop: 2 },
 });
 
 export default ProfileScreen;

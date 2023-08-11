@@ -54,30 +54,31 @@ const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.keybord}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={75}
-      >
-        <View style={styles.container}>
-          <ImageBackground style={styles.photoContainer} source={photo}>
-            <TouchableOpacity
-              style={!photo ? styles.cameraButton : styles.cameraBtnOnPhoto}
-              onPress={handleCameraPress}
-            >
-              <IconCamera
-                name="camera-alt"
-                size={24}
-                style={photo ? styles.photoAdded : styles.withoutPhoto}
-              />
-            </TouchableOpacity>
-          </ImageBackground>
-          {!photo ? (
-            <Text style={styles.loadPhotoText}>Завантажте фото</Text>
-          ) : (
-            <Text style={styles.loadPhotoText}>Редагувати фото</Text>
-          )}
-
+      <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.keyboard}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={-175}
+        >
+          <View>
+            <ImageBackground style={styles.photoContainer} source={photo}>
+              <TouchableOpacity
+                style={!photo ? styles.cameraButton : styles.cameraBtnOnPhoto}
+                onPress={handleCameraPress}
+              >
+                <IconCamera
+                  name="camera-alt"
+                  size={24}
+                  style={photo ? styles.photoAdded : styles.withoutPhoto}
+                />
+              </TouchableOpacity>
+            </ImageBackground>
+            {!photo ? (
+              <Text style={styles.loadPhotoText}>Завантажте фото</Text>
+            ) : (
+              <Text style={styles.loadPhotoText}>Редагувати фото</Text>
+            )}
+          </View>
           <TextInput
             placeholder="Назва..."
             placeholderTextColor="#bdbdbd"
@@ -115,11 +116,11 @@ const CreatePostsScreen = () => {
               Опублікувати
             </Text>
           </Pressable>
-        </View>
+        </KeyboardAvoidingView>
         <TouchableOpacity style={styles.trashButton} onPress={resetCreation}>
           <Icon name="trash-2" size={24} color={"#BDBDBD"} />
         </TouchableOpacity>
-      </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -128,6 +129,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    backgroundColor: "#ffffff",
+    justifyContent: "flex-end",
+  },
+  keyboard: {
+    flex: 1,
   },
   photoContainer: {
     width: "100%",
@@ -167,12 +173,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#BDBDBD",
   },
-  keybord: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "space-between",
-    backgroundColor: "#ffffff",
-  },
   input: {
     width: "100%",
     height: 50,
@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
-    marginVertical: 16,
+    marginTop: 16,
+    marginBottom: "auto",
     backgroundColor: "#ff6c00",
   },
   buttonDisabled: { backgroundColor: "#F6F6F6" },
@@ -209,11 +210,10 @@ const styles = StyleSheet.create({
   trashButton: {
     width: 70,
     height: 40,
-    marginVertical: 9,
+    marginBottom: 9,
     backgroundColor: "#F6F6F6",
     alignItems: "center",
     justifyContent: "center",
-    justifySelf: "flex-end",
     alignSelf: "center",
     borderRadius: 20,
   },
