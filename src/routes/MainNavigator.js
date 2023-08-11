@@ -4,7 +4,7 @@ import {
   RegisterScreen,
   CommentsScreen,
   MapScreen,
-} from "./src/Screens/index.js";
+} from "../Screens/index.js";
 import HomeBottomNavigator from "./HomeBottomNavigator.js";
 
 const MainStack = createStackNavigator();

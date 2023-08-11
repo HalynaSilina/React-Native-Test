@@ -22,7 +22,7 @@ const initialState = {
   secureTextEntry: true,
 };
 
-export default function LoginScreen() {
+const LoginScreen = () =>{
   const [isFocused, setIsFocused] = useState("");
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -223,3 +223,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default LoginScreen;

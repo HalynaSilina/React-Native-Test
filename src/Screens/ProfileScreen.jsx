@@ -2,14 +2,14 @@ import {
   ImageBackground,
   Pressable,
   StyleSheet,
-  Text,
   View,
   Image,
-  ScrollView,
+  FlatList,
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import Publication from "../components/Publication";
 import { AntDesign } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/Feather";
 import bgImage from "../../assets/images/background.jpg";
@@ -17,6 +17,34 @@ import photo from "../../assets/images/photo.jpg";
 import image1 from "../../assets/images/forest.jpg";
 import image2 from "../../assets/images/sea.jpg";
 import image3 from "../../assets/images/house.jpg";
+import ProfileHeader from "../components/ProfileHeader";
+
+const DATA = [
+  {
+    id: "1",
+    image: image1,
+    title: "Ліс",
+    comments: "8",
+    location: "Ivano-Frankivs'k Region, Ukraine",
+    likes: "153",
+  },
+  {
+    id: "2",
+    title: "Захід на Чорному морі",
+    image: image2,
+    comments: "3",
+    location: "Ukraine",
+    likes: "200",
+  },
+  {
+    id: "3",
+    title: "Старий будиночок у Венеції",
+    image: image3,
+    comments: "50",
+    location: "Italy",
+    likes: "200",
+  },
+];
 
 const ProfileScreen = () => {
   const [avatar, setAvatar] = useState(false);
@@ -52,97 +80,22 @@ const ProfileScreen = () => {
           >
             <Icon name="log-out" color="#BDBDBD" size={24} />
           </TouchableOpacity>
-          <Text style={styles.title}>Natali Romanova</Text>
-          <ScrollView style={styles.listContainer}>
-            <View style={styles.item}>
-              <Image source={image1} alt={"Ліс"} style={styles.image} />
-              <Text style={styles.imageTitle}>Ліс</Text>
-              <View style={styles.imageButtonsContainer}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Comments")}
-                >
-                  <View style={styles.button}>
-                    <Icon name="message-circle" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>8</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Icon name="thumbs-up" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>153</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("Map")}>
-                  <View style={styles.button}>
-                    <Icon name="map-pin" size={24} color={"#BDBDBD"} />
-                    <Text style={styles.locationText}>
-                      Ivano-Frankivs'k Region, Ukraine
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.item}>
-              <Image
-                source={image2}
-                alt={"Захід на Чорному морі"}
-                style={styles.image}
+          <FlatList
+            style={styles.listContainer}
+            data={DATA}
+            renderItem={({ item }) => (
+              <Publication
+                title={item.title}
+                image={item.image}
+                comments={item.comments}
+                location={item.location}
+                likes={item.likes}
               />
-              <Text style={styles.imageTitle}>Захід на Чорному морі</Text>
-              <View style={styles.imageButtonsContainer}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Comments")}
-                >
-                  <View style={styles.button}>
-                    <Icon name="message-circle" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>3</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Icon name="thumbs-up" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>200</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("Map")}>
-                  <View style={styles.button}>
-                    <Icon name="map-pin" size={24} color={"#BDBDBD"} />
-                    <Text style={styles.locationText}>Ukraine</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.item}>
-              <Image
-                source={image3}
-                alt={"Старий будиночок у Венеції"}
-                style={styles.image}
-              />
-              <Text style={styles.imageTitle}>Старий будиночок у Венеції</Text>
-              <View style={styles.imageButtonsContainer}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Comments")}
-                >
-                  <View style={styles.button}>
-                    <Icon name="message-circle" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>50</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View style={styles.button}>
-                    <Icon name="thumbs-up" size={24} color={"#FF6C00"} />
-                    <Text style={styles.commentText}>200</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("Map")}>
-                  <View style={styles.button}>
-                    <Icon name="map-pin" size={24} color={"#BDBDBD"} />
-                    <Text style={styles.locationText}>Italy</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
+            )}
+            keyExtractor={(item) => item.id}
+            ListHeaderComponent={<ProfileHeader name="Natali Romanova" />}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       </View>
     </ImageBackground>
@@ -153,6 +106,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, width: "100%", justifyContent: "flex-end" },
   bgImage: { flex: 1, width: "100%" },
   form: {
+    height: 630,
     paddingTop: 60,
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
@@ -190,47 +144,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "45deg" }],
   },
   logoutButton: { position: "absolute", right: 16, top: 22 },
-  title: {
-    marginVertical: 32,
-    color: "#212121",
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  listContainer: { width: "100%", height: 400 },
-  item: { marginBottom: 32 },
-  image: {
-    width: "100%",
-    height: 240,
-    borderRadius: 8,
-    resizeMode: "cover",
-    overflow: "hidden",
-  },
-  imageTitle: {
-    marginVertical: 8,
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#212121",
-  },
-  imageButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  button: { flexDirection: "row"},
-  locationText: {
-    marginLeft: 6,
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#212121",
-    textDecorationLine: "underline",
-  },
-  commentText: {
-    marginLeft: 6,
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#212121",
-  },
+  listContainer: { width: "100%"},
 });
 
 export default ProfileScreen;

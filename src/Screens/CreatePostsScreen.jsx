@@ -54,11 +54,12 @@ const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          style={styles.keybord}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+      <KeyboardAvoidingView
+        style={styles.keybord}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={75}
+      >
+        <View style={styles.container}>
           <ImageBackground style={styles.photoContainer} source={photo}>
             <TouchableOpacity
               style={!photo ? styles.cameraButton : styles.cameraBtnOnPhoto}
@@ -114,11 +115,11 @@ const CreatePostsScreen = () => {
               Опублікувати
             </Text>
           </Pressable>
-          <TouchableOpacity style={styles.trashButton} onPress={resetCreation}>
-            <Icon name="trash-2" size={24} color={"#BDBDBD"} />
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-      </View>
+        </View>
+        <TouchableOpacity style={styles.trashButton} onPress={resetCreation}>
+          <Icon name="trash-2" size={24} color={"#BDBDBD"} />
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
@@ -127,8 +128,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    justifyContent: "center",
-    backgroundColor: "#ffffff",
   },
   photoContainer: {
     width: "100%",
@@ -168,7 +167,12 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#BDBDBD",
   },
-  keybord: { flex: 1, width: "100%" },
+  keybord: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: "#ffffff",
+  },
   input: {
     width: "100%",
     height: 50,
