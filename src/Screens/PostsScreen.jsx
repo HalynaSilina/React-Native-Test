@@ -11,25 +11,22 @@ const DATA = [
     id: "1",
     image: image1,
     title: "Ліс",
-    comments: "0",
+    comments: 0,
     location: "Ivano-Frankivs'k Region, Ukraine",
-    likes: null,
   },
   {
     id: "2",
     title: "Захід на Чорному морі",
     image: image2,
-    comments: "0",
+    comments: 0,
     location: "Ukraine",
-    likes: null,
   },
   {
     id: "3",
     title: "Старий будиночок у Венеції",
     image: image3,
-    comments: "0",
+    comments: 0,
     location: "Italy",
-    likes: null,
   },
 ];
 

@@ -1,28 +1,59 @@
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
-const Publication = ({ title, image, comments, location, likes }) => {
+const Publication = ({ title, image, comments, location, likes = null }) => {
+  const [currentLikes, setCurrentLikes] = useState(likes);
   const navigation = useNavigation();
+
+  const handleLikeBtnPress = () => {
+    setCurrentLikes(currentLikes + 1);
+  };
+
   return (
     <View style={styles.item}>
       <Image source={image} alt={title} style={styles.image} />
       <Text style={styles.imageTitle}>{title}</Text>
       <View style={styles.imageButtonsContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Comments")}>
-          <View style={styles.button}>
-            <Icon name="message-circle" size={24} color={"#BDBDBD"} />
-            <Text style={styles.commentText}>{comments}</Text>
-          </View>
-        </TouchableOpacity>
-        {likes && (
-          <TouchableOpacity>
+        <View style={styles.reactions}>
+          <TouchableOpacity onPress={() => navigation.navigate("Comments")}>
             <View style={styles.button}>
-              <Icon name="thumbs-up" size={24} color={"#FF6C00"} />
-              <Text style={styles.commentText}>{likes}</Text>
+              <Icon
+                name="message-circle"
+                size={24}
+                color={comments === 0 ? "#BDBDBD" : "#FF6C00"}
+              />
+              <Text
+                style={[
+                  styles.commentText,
+                  comments !== 0 && styles.accentCommentText,
+                ]}
+              >
+                {comments}
+              </Text>
             </View>
           </TouchableOpacity>
-        )}
+          {likes && (
+            <TouchableOpacity onPress={handleLikeBtnPress}>
+              <View style={styles.button}>
+                <Icon
+                  name="thumbs-up"
+                  size={24}
+                  color={currentLikes === 0 ? "#BDBDBD" : "#FF6C00"}
+                />
+                <Text
+                  style={[
+                    styles.commentText,
+                    currentLikes !== 0 && styles.accentCommentText,
+                  ]}
+                >
+                  {currentLikes}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
         <TouchableOpacity onPress={() => navigation.navigate("Map")}>
           <View style={styles.button}>
             <Icon name="map-pin" size={24} color={"#BDBDBD"} />
@@ -55,17 +86,24 @@ const styles = StyleSheet.create({
   imageButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "baseline"
   },
-  button: { flexDirection: "row" },
+  button: { flexDirection: "row"},
+  reactions: { flexDirection: "row", gap: 24 },
   locationText: {
+    marginLeft: 4,
     fontSize: 16,
     fontWeight: "400",
     color: "#212121",
     textDecorationLine: "underline",
   },
   commentText: {
+    marginLeft: 6,
     fontSize: 16,
     fontWeight: "400",
     color: "#BDBDBD",
+  },
+  accentCommentText: {
+    color: "#212121",
   },
 });

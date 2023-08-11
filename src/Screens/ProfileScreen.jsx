@@ -24,30 +24,30 @@ const DATA = [
     id: "1",
     image: image1,
     title: "Ліс",
-    comments: "8",
-    location: "Ivano-Frankivs'k Region, Ukraine",
-    likes: "153",
+    comments: 8,
+    location: "Ukraine",
+    likes: 153,
   },
   {
     id: "2",
     title: "Захід на Чорному морі",
     image: image2,
-    comments: "3",
+    comments: 3,
     location: "Ukraine",
-    likes: "200",
+    likes: 200,
   },
   {
     id: "3",
     title: "Старий будиночок у Венеції",
     image: image3,
-    comments: "50",
+    comments: 50,
     location: "Italy",
-    likes: "200",
+    likes: 200,
   },
 ];
 
 const ProfileScreen = () => {
-  const [avatar, setAvatar] = useState(false);
+  const [avatar, setAvatar] = useState(true);
   const navigation = useNavigation();
 
   const handleAvatarAddPress = () => {
@@ -58,8 +58,12 @@ const ProfileScreen = () => {
     setAvatar(false);
   };
   return (
-    <ImageBackground source={bgImage} resizeMode="cover" style={styles.bgImage}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ImageBackground
+        source={bgImage}
+        resizeMode="cover"
+        style={styles.bgImage}
+      >
         <View style={styles.form}>
           <View style={styles.photoContainer}>
             {avatar && <Image source={photo} style={styles.photo} />}
@@ -97,16 +101,16 @@ const ProfileScreen = () => {
             showsVerticalScrollIndicator={false}
           />
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, width: "100%", justifyContent: "flex-end" },
+  container: { flex: 1, width: "100%" },
   bgImage: { flex: 1, width: "100%" },
   form: {
-    marginTop: 60,
+    marginTop: 103,
     paddingTop: 60,
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",

@@ -9,7 +9,7 @@ import HomeBottomNavigator from "./HomeBottomNavigator.js";
 
 const MainStack = createStackNavigator();
 
-export default function MainNavigator() {
+const MainNavigator = () => {
   return (
     <MainStack.Navigator
       initialRouteName="Login"
@@ -23,3 +23,5 @@ export default function MainNavigator() {
     </MainStack.Navigator>
   );
 }
+
+export default MainNavigator;

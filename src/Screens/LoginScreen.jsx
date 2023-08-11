@@ -56,7 +56,7 @@ const LoginScreen = () =>{
     console.log(formData);
     dispatch({ type: "setEmail", email: "" });
     dispatch({ type: "setPassword", password: "" });
-    navigation.navigate("Home", { email: state.email });
+    navigation.replace("Home", { email: state.email });
   };
 
   return (

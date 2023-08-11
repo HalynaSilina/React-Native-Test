@@ -74,6 +74,7 @@ export default function RegistrationScreen() {
     dispatch({ type: "setLogin", login: "" });
     dispatch({ type: "setEmail", email: "" });
     dispatch({ type: "setPassword", password: "" });
+    navigation.replace("Home")
   };
 
   return (
@@ -165,7 +166,6 @@ export default function RegistrationScreen() {
             >
               <Text
                 style={styles.buttonText}
-                onPress={() => navigation.navigate("Home")}
               >
                 Зареєстуватися
               </Text>
