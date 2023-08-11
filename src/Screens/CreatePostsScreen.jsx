@@ -58,7 +58,7 @@ const CreatePostsScreen = () => {
         <KeyboardAvoidingView
           style={styles.keyboard}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={-175}
+          keyboardVerticalOffset={-205}
         >
           <View>
             <ImageBackground style={styles.photoContainer} source={photo}>
@@ -116,10 +116,10 @@ const CreatePostsScreen = () => {
               Опублікувати
             </Text>
           </Pressable>
+          <TouchableOpacity style={styles.trashButton} onPress={resetCreation}>
+            <Icon name="trash-2" size={24} color={"#BDBDBD"} />
+          </TouchableOpacity>
         </KeyboardAvoidingView>
-        <TouchableOpacity style={styles.trashButton} onPress={resetCreation}>
-          <Icon name="trash-2" size={24} color={"#BDBDBD"} />
-        </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
